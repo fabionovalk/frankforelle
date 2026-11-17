@@ -4,15 +4,25 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
-const PAGE_URL = `${SITE_URL}/factural-version`;
-const OG_IMAGE = `${SITE_URL}/api/og-factural`;
+// Build absolute URLs from the incoming request so OG/Twitter tags point at the
+// real domain in production instead of a build-time value like localhost.
+export function getServerSideProps({ req }) {
+  const proto = (req.headers["x-forwarded-proto"] || "http").split(",")[0].trim();
+  const host = req.headers["x-forwarded-host"] || req.headers.host;
+  const siteUrl = host
+    ? `${proto}://${host}`
+    : (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+  return { props: { siteUrl } };
+}
 
 const TITLE = "Buyer Notice: 1989 Porsche 911 Carrera 25th Anniversary (VIN WP0AB091XKS121085)";
 const DESCRIPTION =
   "Considering this 1989 Porsche 911 Carrera 25th Anniversary Edition? The seller previously agreed to sell it on Bring a Trailer, then backed out without explanation. Read what happened.";
 
-export default function FacturalVersion() {
+export default function FacturalVersion({ siteUrl }) {
+  const PAGE_URL = `${siteUrl}/factural-version`;
+  const OG_IMAGE = `${siteUrl}/api/og-factural`;
+
   return (
     <>
       <Head>
