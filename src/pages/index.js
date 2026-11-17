@@ -5,8 +5,16 @@ import pca_logo from '@/images/pca.png';
 import pca_yellow_logo from '@/images/yellowstone-pca.png';
 import frank from '@/images/frank-x-1-150x150.jpg';
 import { TbAlertTriangleFilled } from "react-icons/tb";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+const PAGE_URL = `${SITE_URL}`;
+const OG_IMAGE = `${SITE_URL}/api/og`;
+
+const TITLE = "Do Not Trust Frank Forelle and Avoid at all Costs";
+const DESCRIPTION = "DO NOT BUY PORSCHE 911 WITH VIN# WP0AB091XKS121085, A 1989 Porsche 911 Carrera Coupe 25th Anniversary Edition.";
 
 
 export default function Home() {
@@ -24,6 +32,24 @@ export default function Home() {
 
   return (
     <>
+    <Head>
+        <title>{TITLE}</title>
+        <meta name="description" content={DESCRIPTION} />
+
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={PAGE_URL} />
+        <meta property="og:title" content={TITLE} />
+        <meta property="og:description" content={DESCRIPTION} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="1989 Porsche 911 Carrera 25th Anniversary — VIN WP0AB091XKS121085" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={TITLE} />
+        <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={OG_IMAGE} />
+      </Head>
       <main
           className={`${inter.className}`}
       >
